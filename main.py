@@ -1,16 +1,21 @@
-# This is a sample Python script.
+from scipy.optimize import minimize
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere ffgor classebjsadjsads, files, tool windows, actions, and settings.
+# define objective function
+fun = lambda x: (x[0] - x[2]) ** 2 + (x[1] + x[2] - 2) ** 2 + (x[3] - 1) ** 2 + (x[4] - 1) ** 2
+
+# define constraint
+const = ({'type': 'eq', 'fun': lambda x: x[0] + 3 * x[1]},
+        {'type': 'eq', 'fun': lambda x: x[2] + x[3] - 2 * x[4]},
+        {'type': 'eq', 'fun': lambda x: x[1] - x[4]})
+
+# define boundary condition
+bnds = ((-10, 10), (-10, 10), (-10, 10), (-10, 10), (-10, 10))
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Preshfsdgfjsds Ctrl+F8 to toggle the breakpoint.
+# set initial guesses
+x0 = [0, 10, 2, 0, 10]
 
+# main method
+res = minimize(fun, x0, method='SLSQP', bounds=bnds, constraints=const)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('siddahant nd')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(res)
