@@ -50,7 +50,7 @@ def plot_iteration(first_param_grid, sampled_params, sampled_loss, first_iter=0,
                                         normalize_y=True)
 
     # Don't show the last iteration (next_sample is not available then)
-    for i in range(first_iter, sampled_params.shape[0] - 1):
+    for i in range(first_iter, sampled_params.shape[0]-1):
         model.fit(X=sampled_params[:(i + 1), :], y=sampled_loss[:(i + 1)])
 
         if second_param_grid is None:
@@ -110,7 +110,7 @@ def _plot_loss_2d(first_param_grid, second_param_grid, sampled_params, sampled_l
     ax1.axvline(next_sample[0], color='k')
     ax1.axhline(next_sample[1], color='k')
     ax1.scatter(next_sample[0], next_sample[1])
-    ax1.set_xlabel("C")
+    ax1.set_xlabel("X1")
     ax1.set_ylabel("X2")
 
     # Loss contour plot
@@ -122,7 +122,7 @@ def _plot_loss_2d(first_param_grid, second_param_grid, sampled_params, sampled_l
     ax2.axhline(next_sample[1], color='k')
     ax2.scatter(next_sample[0], next_sample[1])
     ax2.set_title("Mean estimate of loss surface for iteration %d" % (sampled_params.shape[0]))
-    ax2.set_xlabel("C")
+    ax2.set_xlabel("X1")
     ax2.set_ylabel("X2")
 
     if optimum is not None:
