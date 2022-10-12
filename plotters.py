@@ -4,9 +4,11 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from gp import *
+import sklearn.gaussian_process as gp
 
 def plot_iteration(first_param_grid, sampled_params, sampled_loss, first_iter=0, alpha=1e-5,
-                   greater_is_better=True, true_y=None, second_param_grid=None,
+                   greater_is_better=False, true_y=None, second_param_grid=None,
                    param_dims_to_plot=[0, 1], filepath=None, optimum=None):
     """ plot_iteration
 
@@ -68,8 +70,8 @@ def plot_iteration(first_param_grid, sampled_params, sampled_loss, first_iter=0,
 
             fig, ax1, ax2 = _plot_loss_2d(first_param_grid, second_param_grid, sampled_params[:(i+1), param_dims_to_plot], sampled_loss, mu, ei, sampled_params[i + 1, param_dims_to_plot], optimum)
 
-        if file_path is not None:
-            plt.savefig('%s/bo_iteration_%d.png' % (filepath, i), bbox_inches='tight')
+        # if file_path is not None:
+        #     plt.savefig('%s/bo_iteration_%d.png' % (filepath, i), bbox_inches='tight')
 
 
 def _plot_loss_1d(x_grid, x_eval, y_eval, mu, std, ei, next_sample, yerr=0.0, true_y=None):
@@ -109,7 +111,7 @@ def _plot_loss_2d(first_param_grid, second_param_grid, sampled_params, sampled_l
     ax1.axhline(next_sample[1], color='k')
     ax1.scatter(next_sample[0], next_sample[1])
     ax1.set_xlabel("C")
-    ax1.set_ylabel("gamma")
+    ax1.set_ylabel("X2")
 
     # Loss contour plot
     cp2 = ax2.contourf(X, Y, mu.reshape(X.shape))
@@ -121,7 +123,7 @@ def _plot_loss_2d(first_param_grid, second_param_grid, sampled_params, sampled_l
     ax2.scatter(next_sample[0], next_sample[1])
     ax2.set_title("Mean estimate of loss surface for iteration %d" % (sampled_params.shape[0]))
     ax2.set_xlabel("C")
-    ax2.set_ylabel("gamma")
+    ax2.set_ylabel("X2")
 
     if optimum is not None:
         ax2.scatter(optimum[0], optimum[1], marker='*', c='gold', s=150)
